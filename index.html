@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hopicionário</title>
+  <!--SEO-->
+  <meta name="description" content="Mais um projeto de um arrombado.">
+  <meta name="keywords" content="jogo, tradução, palavras, diversão, aprendizado, línguas">
+  <meta name="author" content="GBertolini">
+  <meta name="robots" content="index, follow">
+  <meta name="image" content="https://i.ytimg.com/vi/5VHqUiBPmWY/maxresdefault.jpg">
+  <meta property="og:title" content="Hopicionário">
+  <!--Original Graphs-->
+  <meta property="og:description" content="Mais um projeto de um arrombado.">
+  <meta property="og:image" content="https://i.ytimg.com/vi/5VHqUiBPmWY/maxresdefault.jpg">
+  <meta property="og:url" content="hopicionario.gbertolini.dev">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <!--Twitter-->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hopicionário">
+  <meta name="twitter:description" content="Mais um projeto de um arrombado.">
+  <meta name="twitter:image" content="https://i.ytimg.com/vi/5VHqUiBPmWY/maxresdefault.jpg">
+  <meta name="twitter:url" content="hopicionario.gbertolini.dev">
+  <meta name="twitter:creator" content="@BertoIini">
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      text-align: center;
+    }
+
+    #gameContainer {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    #checkButton {
+      margin: 10%;
+    }
+
+    #translationInput{
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="gameContainer">
+    <h1>Traduza a Palavra</h1>
+    <p id="wordToTranslate"></p>
+    <input type="text" id="translationInput" placeholder="Sua Tradução">
+    <button id="checkButton">Verificar</button>
+    <button id="showAnswerButton">Arregar</button>
+    <p id="resultMessage"></p>
+    <div id=correctTranslationDiv>
+      <span>Tradução correta: </span><p id="correctTranslation"></p>
+    </div>
+  </div>
+  <script>
+    let words = [];
+    {
+      words = [
+        { portuguese: 'abraço', hopes: 'clipi' },
+        { portuguese: 'abril', hopes: 'kua me' },
+        { portuguese: 'academia', hopes: 'akadêmika' },
+        { portuguese: 'acertar', hopes: 'namuskita' },
+        { portuguese: 'adiantar', hopes: 'adiantá' },
+        { portuguese: 'agosto', hopes: 'óto me' },
+        { portuguese: 'água', hopes: 'ákua' },
+        { portuguese: 'ajuda', hopes: 'helpi' },
+        { portuguese: 'alegria', hopes: 'hari' },
+        { portuguese: 'aluguel', hopes: 'renta' },
+        { portuguese: 'amamentário', hopes: 'mamadero' },
+        { portuguese: 'amigo', hopes: 'ami' },
+        { portuguese: 'aniversário', hopes: 'hopi bardei' },
+        { portuguese: 'ano', hopes: 'ani' },
+        { portuguese: 'antes', hopes: 'prévius' },
+        { portuguese: 'aprendizado', hopes: 'paprendê' },
+        { portuguese: 'aqui', hopes: 'akí' },
+        { portuguese: 'arranque', hopes: 'katapul' },
+        { portuguese: 'até amanhã', hopes: 'teuróra' },
+        { portuguese: 'atenção', hopes: 'silig!' },
+        { portuguese: 'atendimento', hopes: 'atenciosi' },
+        { portuguese: 'atingir', hopes: 'namuskita' },
+        { portuguese: 'automóvel', hopes: 'auto' },
+        { portuguese: 'avenida', hopes: 'kaminda' },
+        { portuguese: 'aventura', hopes: 'hatari' },
+        { portuguese: 'bala', hopes: 'kandi' },
+        { portuguese: 'balão', hopes: 'balum' },
+        { portuguese: 'balcão', hopes: 'balkoni' },
+        { portuguese: 'bambú', hopes: 'bamboo' },
+        { portuguese: 'banco', hopes: 'kasa di plaka' },
+        { portuguese: 'bandido', hopes: 'bédi' },
+        { portuguese: 'banheiro', hopes: 'banheiro' },
+        { portuguese: 'banho', hopes: 'chabum' },
+        { portuguese: 'barriga', hopes: 'panz' },
+        { portuguese: 'basquete', hopes: 'basketi' },
+        { portuguese: 'bater', hopes: 'batê' },
+        { portuguese: 'bebedouro', hopes: 'aguero' },
+        { portuguese: 'bebida', hopes: 'glu glu' },
+        { portuguese: 'beijo', hopes: 'kissi' },
+        { portuguese: 'bem-vindo', hopes: 'bon bini' },
+        { portuguese: 'besteira', hopes: 'aribobagem' },
+        { portuguese: 'beterraba', hopes: 'rédi vegie' },
+        { portuguese: 'bife', hopes: 'beef' },
+        { portuguese: 'bilheteria', hopes: 'tiketeria' },
+        { portuguese: 'binóculo', hopes: 'lukilongi' },
+        { portuguese: 'boa noite', hopes: 'bon lua' },
+        { portuguese: 'boa tarde', hopes: 'bon tardi' },
+        { portuguese: 'boca', hopes: 'bokita' },
+        { portuguese: 'bóia', hopes: 'flutu' },
+        { portuguese: 'bom dia', hopes: 'bon raia di sol' },
+        { portuguese: 'bom', hopes: 'bon' },
+        { portuguese: 'branco', hopes: 'alvi' },
+        { portuguese: 'bússola', hopes: 'paguiá' },
+        { portuguese: 'cabeça', hopes: 'kuka' },
+        { portuguese: 'cachoeira', hopes: 'spleshi' },
+        { portuguese: 'cadeira de rodas', hopes: 'karrin' },
+        { portuguese: 'café', hopes: 'kafé' },
+        { portuguese: 'caixa', hopes: 'plakero' },
+        { portuguese: 'calor', hopes: 'hoti' },
+        { portuguese: 'caminho', hopes: 'kaminda' },
+        { portuguese: 'camiseta', hopes: 'abadá' },
+        { portuguese: 'capacete', hopes: 'salvakuka' },
+        { portuguese: 'capital', hopes: 'kapital' },
+        { portuguese: 'carrinho de bebê', hopes: 'karrin' },
+        { portuguese: 'carroça', hopes: 'wagon' },
+        { portuguese: 'cartório', hopes: 'karimbabiba' },
+        { portuguese: 'casa', hopes: 'kasa' },
+        { portuguese: 'castelo', hopes: 'kastel' },
+        { portuguese: 'catapulta', hopes: 'katapul' },
+        { portuguese: 'cavalo', hopes: 'pokotó' },
+        { portuguese: 'caveira', hopes: 'kaskul' },
+        { portuguese: 'celular', hopes: 'celulero' },
+        { portuguese: 'certo', hopes: 'ókei' },
+        { portuguese: 'chocolate', hopes: 'choco' },
+        { portuguese: 'churrasco', hopes: 'grill' },
+        { portuguese: 'chuva', hopes: 'toró' },
+        { portuguese: 'cinco', hopes: 'cin' },
+        { portuguese: 'cinema', hopes: 'cinétrion' },
+        { portuguese: 'claro', hopes: 'klarin' },
+        { portuguese: 'coco', hopes: 'koko' },
+        { portuguese: 'colete salva-vidas', hopes: 'salvavita' },
+        { portuguese: 'com', hopes: 'kon' },
+        { portuguese: 'com o quê?', hopes: 'kunkê?' },
+        { portuguese: 'comboio', hopes: 'komboio' },
+        { portuguese: 'comer', hopes: 'hangá' },
+        { portuguese: 'comida', hopes: 'hango' },
+        { portuguese: 'como', hopes: 'komo' },
+        { portuguese: 'computador', hopes: 'pecê' },
+        { portuguese: 'consulado', hopes: 'konsulado' },
+        { portuguese: 'conta', hopes: 'doloris' },
+        { portuguese: 'conversa', hopes: 'hopi lero' },
+        { portuguese: 'convidado', hopes: 'konvitá' },
+        { portuguese: 'convite', hopes: 'konvitê' },
+        { portuguese: 'coração', hopes: 'tum-tum' },
+        { portuguese: 'corda', hopes: 'kordonê' },
+        { portuguese: 'corpo', hopes: 'kórpus' },
+        { portuguese: 'cozinha', hopes: 'cooki' },
+        { portuguese: 'criança', hopes: 'chikito' },
+        { portuguese: 'criar', hopes: 'inventá' },
+        { portuguese: 'custar', hopes: 'kusta' },
+        { portuguese: 'da', hopes: 'di' },
+        { portuguese: 'dado', hopes: 'dadí' },
+        { portuguese: 'dar', hopes: 'dá' },
+        { portuguese: 'de nada', hopes: 'nadikê' },
+        { portuguese: 'demais', hopes: 'iupi' },
+        { portuguese: 'dentro', hopes: 'adentri' },
+        { portuguese: 'desafio', hopes: 'hatari' },
+        { portuguese: 'desconhecer', hopes: 'seilaokê' },
+        { portuguese: 'desculpa', hopes: 'perdoni' },
+        { portuguese: 'desembarque', hopes: 'desembark' },
+        { portuguese: 'desenvolver', hopes: 'evolution' },
+        { portuguese: 'dezembro', hopes: 'uni duni me' },
+        { portuguese: 'dia', hopes: 'raia di sol' },
+        { portuguese: 'dica', hopes: 'hopidika' },
+        { portuguese: 'diferente', hopes: 'ráris' },
+        { portuguese: 'digitar', hopes: 'teklakí' },
+        { portuguese: 'dinheiro', hopes: 'plaka' },
+        { portuguese: 'direito', hopes: 'dir' },
+        { portuguese: 'diversão', hopes: 'uaau uaau' },
+        { portuguese: 'diversão', hopes: 'disfruti' },
+        { portuguese: 'doce', hopes: 'doce' },
+        { portuguese: 'dois', hopes: 'duni' },
+        { portuguese: 'domingo', hopes: 'dominiki' },
+        { portuguese: 'e aí, só alegria?', hopes: 'aribabibaí?' },
+        { portuguese: 'ela', hopes: 'lalá' },
+        { portuguese: 'ele', hopes: 'lelé' },
+        { portuguese: 'eletricidade', hopes: 'eléktro' },
+        { portuguese: 'embarque', hopes: 'embark' },
+        { portuguese: 'encanto', hopes: 'enkantus' },
+        { portuguese: 'encontrar', hopes: 'enkontrí' },
+        { portuguese: 'encontro', hopes: 'enkontrí' },
+        { portuguese: 'enfermaria', hopes: 'enfermeria' },
+        { portuguese: 'entrada', hopes: 'entrakí' },
+        { portuguese: 'equipe', hopes: 'time-ami' },
+        { portuguese: 'escada', hopes: 'sóbi-déci' },
+        { portuguese: 'especial', hopes: 'speciali' },
+        { portuguese: 'espírito', hopes: 'sentimentí' },
+        { portuguese: 'espirro', hopes: 'tichim' },
+        { portuguese: 'esquerdo', hopes: 'esk' },
+        { portuguese: 'esse', hopes: 'essakí' },
+        { portuguese: 'estacionamento', hopes: 'paradero' },
+        { portuguese: 'estampado', hopes: 'printi' },
+        { portuguese: 'estar', hopes: 'tá' },
+        { portuguese: 'estrada', hopes: 'kaminda' },
+        { portuguese: 'ética', hopes: 'étika' },
+        { portuguese: 'eu', hopes: 'mi' },
+        { portuguese: 'evolução', hopes: 'evolution' },
+        { portuguese: 'fã de Hopi Hari', hopes: 'hopimaníako' },
+        { portuguese: 'fácil', hopes: 'ebíki' },
+        { portuguese: 'fala', hopes: 'hopi lero' },
+        { portuguese: 'fantasia', hopes: 'fazdikonta' },
+        { portuguese: 'fantasma', hopes: 'ghosti' },
+        { portuguese: 'fantástico', hopes: 'moturi' },
+        { portuguese: 'fazer', hopes: 'fá' },
+        { portuguese: 'feliz', hopes: 'hepi' },
+        { portuguese: 'feliz natal', hopes: 'hopi natali' },
+        { portuguese: 'festa', hopes: 'hepi' },
+        { portuguese: 'fevereiro', hopes: 'duni me' },
+        { portuguese: 'ficar', hopes: 'tá' },
+        { portuguese: 'fôlego', hopes: 'respiri' },
+        { portuguese: 'formatura', hopes: 'graduari' },
+        { portuguese: 'forte', hopes: 'forti' },
+        { portuguese: 'fotografia', hopes: 'cliki' },
+        { portuguese: 'fraldário', hopes: 'trokadero' },
+        { portuguese: 'frango', hopes: 'chicken' },
+        { portuguese: 'frango', hopes: 'frangó' },
+        { portuguese: 'frase da semana', hopes: 'weekidika' },
+        { portuguese: 'frio', hopes: 'friin' },
+        { portuguese: 'friozinho', hopes: 'friin' },
+        { portuguese: 'fruta', hopes: 'fruti' },
+        { portuguese: 'futebol', hopes: 'futibola' },
+        { portuguese: 'garantia', hopes: 'ókei' },
+        { portuguese: 'gosto', hopes: 'gusti' },
+        { portuguese: 'gostoso', hopes: 'hummm' },
+        { portuguese: 'governo', hopes: 'governi' },
+        { portuguese: 'grama', hopes: 'grin' },
+        { portuguese: 'grande', hopes: 'big' },
+        { portuguese: 'grelhado', hopes: 'grill' },
+        { portuguese: 'grupo', hopes: 'time-ami' },
+        { portuguese: 'guarda-volumes', hopes: 'guardadero' },
+        { portuguese: 'guloseima', hopes: 'kandi' },
+        { portuguese: 'habitante', hopes: 'habi taris' },
+        { portuguese: 'homem', hopes: 'hópiu' },
+        { portuguese: 'hora', hopes: 'tiki-taki' },
+        { portuguese: 'hotel', hopes: 'hotel' },
+        { portuguese: 'idade', hopes: 'ani-di-vita' },
+        { portuguese: 'idioma de Hopi Hari', hopes: 'hopês' },
+        { portuguese: 'imprimir', hopes: 'printi' },
+        { portuguese: 'inesquecível', hopes: 'nanina-iskésse' },
+        { portuguese: 'informação', hopes: 'indikamentu' },
+        { portuguese: 'ir', hopes: 'bai' },
+        { portuguese: 'janeiro', hopes: 'uni me' },
+        { portuguese: 'jogar, atirar', hopes: 'taka' },
+        { portuguese: 'julho', hopes: 'seven me' },
+        { portuguese: 'junho', hopes: 'meia me' },
+        { portuguese: 'lâmpada', hopes: 'iluminari' },
+        { portuguese: 'lanchonete', hopes: 'hopi hango' },
+        { portuguese: 'lenda', hopes: 'lendas' },
+        { portuguese: 'letra', hopes: 'letera' },
+        { portuguese: 'levar', hopes: 'levari' },
+        { portuguese: 'limpeza', hopes: 'klin' },
+        { portuguese: 'língua', hopes: 'patatipatatá' },
+        { portuguese: 'loja', hopes: 'shopi' },
+        { portuguese: 'louco', hopes: 'lelé' },
+        { portuguese: 'lua', hopes: 'lua' },
+        { portuguese: 'madeira', hopes: 'uudi' },
+        { portuguese: 'magia', hopes: 'mágus' },
+        { portuguese: 'mágica', hopes: 'mágus' },
+        { portuguese: 'maio', hopes: 'cin me' },
+        { portuguese: 'mapa', hopes: 'karta' },
+        { portuguese: 'maravilhoso', hopes: 'moturi' },
+        { portuguese: 'marca', hopes: 'brandi' },
+        { portuguese: 'março', hopes: 'te me' },
+        { portuguese: 'máximo', hopes: 'hopi' },
+        { portuguese: 'meio ambiente', hopes: 'tumae' },
+        { portuguese: 'melância', hopes: 'big rédi fruti' },
+        { portuguese: 'melhor', hopes: 'hopi' },
+        { portuguese: 'mês', hopes: 'me' },
+        { portuguese: 'meta', hopes: 'namira' },
+        { portuguese: 'mistério', hopes: 'mistieri' },
+        { portuguese: 'mocinho', hopes: 'gúdi' },
+        { portuguese: 'moeda', hopes: 'plaka' },
+        { portuguese: 'moeda oficial', hopes: 'hopi' },
+        { portuguese: 'molho', hopes: 'sugo' },
+        { portuguese: 'muito', hopes: 'hopi' },
+        { portuguese: 'mulher', hopes: 'hópia' },
+        { portuguese: 'mundo', hopes: 'mundi' },
+        { portuguese: 'música', hopes: 'muzik' },
+        { portuguese: 'nada', hopes: 'patavina' },
+        { portuguese: 'não', hopes: 'nanina' },
+        { portuguese: 'nariz', hopes: 'napa' },
+        { portuguese: 'nascer', hopes: 'istarti' },
+        { portuguese: 'natal', hopes: 'natali' },
+        { portuguese: 'natureza', hopes: 'tumae' },
+        { portuguese: 'no', hopes: 'ni' },
+        { portuguese: 'noite', hopes: 'lua' },
+        { portuguese: 'nome', hopes: 'chamamentu' },
+        { portuguese: 'nós', hopes: 'mis' },
+        { portuguese: 'nove', hopes: 'nona' },
+        { portuguese: 'novembro', hopes: 'uni uni me' },
+        { portuguese: 'novo', hopes: 'novu' },
+        { portuguese: 'nunca', hopes: 'jamé' },
+        { portuguese: 'obrigado', hopes: 'danki' },
+        { portuguese: 'oi', hopes: 'oiê' },
+        { portuguese: 'oito', hopes: 'óto' },
+        { portuguese: 'olhar', hopes: 'luki' },
+        { portuguese: 'olho-no-olho', hopes: 'mira ni luki' },
+        { portuguese: 'onde', hopes: 'unda' },
+        { portuguese: 'ônibus', hopes: 'bus' },
+        { portuguese: 'organização', hopes: 'kantri' },
+        { portuguese: 'outubro', hopes: 'uni nada me' },
+        { portuguese: 'pacote', hopes: 'paki' },
+        { portuguese: 'país', hopes: 'kantri' },
+        { portuguese: 'palácio', hopes: 'palaz' },
+        { portuguese: 'palavra', hopes: 'palavrolé' },
+        { portuguese: 'pálido', hopes: 'klarin' },
+        { portuguese: 'palmas', hopes: 'klapi' },
+        { portuguese: 'para', hopes: 'pá' },
+        { portuguese: 'parabéns', hopes: 'kongratularis' },
+        { portuguese: 'parado', hopes: 'stopi' },
+        { portuguese: 'parque', hopes: 'parkid' },
+        { portuguese: 'passado', hopes: 'arkaiko' },
+        { portuguese: 'pausa para um café', hopes: 'átimu' },
+        { portuguese: 'pé', hopes: 'pé' },
+        { portuguese: 'pele', hopes: 'pel' },
+        { portuguese: 'perder', hopes: 'kun-nada' },
+        { portuguese: 'perigo', hopes: 'hatari' },
+        { portuguese: 'petisco', hopes: 'snack' },
+        { portuguese: 'planeta', hopes: 'orbis' },
+        { portuguese: 'plano, planejamento', hopes: 'plani' },
+        { portuguese: 'ponto de encontro', hopes: 'enkontradero' },
+        { portuguese: 'população', hopes: 'hópiu' },
+        { portuguese: 'por favor', hopes: 'plis' },
+        { portuguese: 'postura', hopes: 'posturi' },
+        { portuguese: 'pouco', hopes: 'mini' },
+        { portuguese: 'prazer', hopes: 'disfruti' },
+        { portuguese: 'prepare-se', hopes: 'fikisperti' },
+        { portuguese: 'presente', hopes: 'oferendamentu' },
+        { portuguese: 'primeiro', hopes: 'premieri' },
+        { portuguese: 'profissional', hopes: 'profissa' },
+        { portuguese: 'programe-se', hopes: 'fikisperti' },
+        { portuguese: 'prova', hopes: 'testi' },
+        { portuguese: 'quanto', hopes: 'kuanto' },
+        { portuguese: 'quarta', hopes: 'kuartina' },
+        { portuguese: 'quatro', hopes: 'kua' },
+        { portuguese: 'que', hopes: 'ki' },
+        { portuguese: 'queda', hopes: 'dispenk' },
+        { portuguese: 'quente', hopes: 'hoti' },
+        { portuguese: 'querer', hopes: 'ké' },
+        { portuguese: 'querido', hopes: 'keri' },
+        { portuguese: 'quinta', hopes: 'kintina' },
+        { portuguese: 'raro', hopes: 'ráris' },
+        { portuguese: 'região', hopes: 'urbis' },
+        { portuguese: 'remo', hopes: 'remadô' },
+        { portuguese: 'respirar', hopes: 'respiri' },
+        { portuguese: 'restaurante', hopes: 'restaurandi' },
+        { portuguese: 'reunião', hopes: 'enkontrí' },
+        { portuguese: 'revolta', hopes: 'arara' },
+        { portuguese: 'risada', hopes: 'há-hari' },
+        { portuguese: 'rosto', hopes: 'kara' },
+        { portuguese: 'rua', hopes: 'kaminda' },
+        { portuguese: 'sábado', hopes: 'sabadaz' },
+        { portuguese: 'saída', hopes: 'saiakí' },
+        { portuguese: 'salada', hopes: 'grin' },
+        { portuguese: 'salão', hopes: 'saloon' },
+        { portuguese: 'segunda', hopes: 'segundina' },
+        { portuguese: 'seis', hopes: 'meia' },
+        { portuguese: 'sem', hopes: 'kun-nada' },
+        { portuguese: 'semana', hopes: 'weeki' },
+        { portuguese: 'sentimento', hopes: 'sentimentí' },
+        { portuguese: 'sentir', hopes: 'sentí' },
+        { portuguese: 'ser', hopes: 'tá' },
+        { portuguese: 'sete', hopes: 'seven' },
+        { portuguese: 'setembro', hopes: 'nona me' },
+        { portuguese: 'seu, sua', hopes: 'tu' },
+        { portuguese: 'sexta', hopes: 'sestina' },
+        { portuguese: 'sigilo', hopes: 'bokita' },
+        { portuguese: 'sim', hopes: 'iá' },
+        { portuguese: 'simulador', hopes: 'simulákron' },
+        { portuguese: 'sorriso', hopes: 'há-hari' },
+        { portuguese: 'sorvete', hopes: 'eiskrim' },
+        { portuguese: 'sucesso', hopes: 'ezitus' },
+        { portuguese: 'surpresa', hopes: 'surpraisi' },
+        { portuguese: 'tapete', hopes: 'karpeti' },
+        { portuguese: 'tchau', hopes: 'tchauí' },
+        { portuguese: 'teatro', hopes: 'theatro' },
+        { portuguese: 'telefone', hopes: 'faladero' },
+        { portuguese: 'tempo', hopes: 'tiki-taki' },
+        { portuguese: 'ter', hopes: 'tê' },
+        { portuguese: 'terça', hopes: 'tercina' },
+        { portuguese: 'teste', hopes: 'testi' },
+        { portuguese: 'tinta', hopes: 'kolorê' },
+        { portuguese: 'tontura', hopes: 'zikivira' },
+        { portuguese: 'tornar', hopes: 'tá' },
+        { portuguese: 'treinamento', hopes: 'treiná' },
+        { portuguese: 'três', hopes: 'te' },
+        { portuguese: 'um, uma', hopes: 'uni' },
+        { portuguese: 'único', hopes: 'uniki' },
+        { portuguese: 'vamos', hopes: 'vam vam' },
+        { portuguese: 'vegetal', hopes: 'vegie' },
+        { portuguese: 'vendas', hopes: 'vendakí' },
+        { portuguese: 'ver', hopes: 'miro' },
+        { portuguese: 'verdade', hopes: 'veritá' },
+        { portuguese: 'vermelho', hopes: 'rédi' },
+        { portuguese: 'vida', hopes: 'bida' },
+        { portuguese: 'visitante', hopes: 'cida danis' },
+        { portuguese: 'viva a vida com alegria', hopes: 'aribabiba' },
+        { portuguese: 'viver', hopes: 'bidá' },
+        { portuguese: 'você', hopes: 'bo' },
+        { portuguese: 'voltar', hopes: 'vendinovu' },
+        { portuguese: 'volte sempre', hopes: 'vendinovu' },
+        { portuguese: 'vontade', hopes: 'vontá' },
+        { portuguese: 'zero', hopes: 'nada' }
+
+      ];
+    }
+
+
+    const wordToTranslateElement = document.getElementById('wordToTranslate');
+    const translationInput = document.getElementById('translationInput');
+    const checkButton = document.getElementById('checkButton');
+    const resultMessage = document.getElementById('resultMessage');
+    const correctTranslation = document.getElementById('correctTranslation');
+    const correctTranslationDiv = document.getElementById('correctTranslationDiv');
+    const showAnswerButton = document.getElementById("showAnswerButton");
+
+    let shuffledWords = shuffleArray(words);
+    let currentWordIndex = 0;
+
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function getRandomWord() {
+      return shuffledWords[currentWordIndex];
+    }
+
+    function displayRandomWord() {
+      const randomWord = getRandomWord();
+      wordToTranslateElement.textContent = randomWord.hopes;
+      translationInput.value = '';
+      resultMessage.textContent = '';
+      hideAnswer();
+      correctTranslation.textContent = randomWord.portuguese;
+    }
+
+    function checkTranslation() {
+      const randomWord = getRandomWord();
+      const userTranslation = translationInput.value.trim();
+      const hopesTranslation = randomWord.portuguese.toLowerCase();
+
+      if (userTranslation.toLowerCase() === hopesTranslation) {
+        resultMessage.textContent = 'Correto! Você acertou.';
+        currentWordIndex = (currentWordIndex + 1) % shuffledWords.length;
+        displayRandomWord();
+      }
+      else {
+        resultMessage.textContent = 'Errado. Tente novamente.';
+      }
+    }
+
+    function showAnswer() {
+      correctTranslationDiv.style.display = 'block';
+    }
+
+    function hideAnswer() {
+      correctTranslationDiv.style.display = 'none';
+    }
+
+    checkButton.addEventListener('click', checkTranslation);
+    showAnswerButton.addEventListener('click', showAnswer);
+
+    displayRandomWord();
+  </script>
+</body>
+
+</html>
